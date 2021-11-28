@@ -136,7 +136,7 @@ public class SQLiteJDBCLoaderTest
             pool.execute(new Runnable() {
                 public void run() {
                     try {
-                        Thread.sleep(sleepMillis * 10);
+                        Thread.sleep(sleepMillis * 10L );
                     } catch (InterruptedException e) {
                     }
                     try {
@@ -189,7 +189,7 @@ public class SQLiteJDBCLoaderTest
             pool.execute(new Runnable() {
                 public void run() {
                     try {
-                        Thread.sleep(sleepMillis * 10);
+                        Thread.sleep(sleepMillis * 10L );
                         // Create an isolated class loader, it should load *different* instances
                         // of SQLiteJDBCLoader.class
                         URLClassLoader classLoader = new URLClassLoader(
