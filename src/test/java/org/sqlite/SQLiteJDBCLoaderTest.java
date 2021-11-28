@@ -188,14 +188,11 @@ public class SQLiteJDBCLoaderTest
             final int sleepMillis = i;
             pool.execute(new Runnable() {
                 public void run() {
-                    try {
+                    try (// Create an isolated class loader, it should load *different* instances
+                    // of SQLiteJDBCLoader.class
+                    URLClassLoader classLoader = new URLClassLoader(jarUrl, ClassLoader.getSystemClassLoader().getParent())) {
                         Thread.sleep(sleepMillis * 10);
-                        // Create an isolated class loader, it should load *different* instances
-                        // of SQLiteJDBCLoader.class
-                        URLClassLoader classLoader = new URLClassLoader(
-                                jarUrl, ClassLoader.getSystemClassLoader().getParent());
-                        Class<?> clazz =
-                                classLoader.loadClass("org.sqlite.SQLiteJDBCLoader");
+                        Class<?> clazz = classLoader.loadClass("org.sqlite.SQLiteJDBCLoader");
                         Method initMethod = clazz.getDeclaredMethod("initialize");
                         initMethod.invoke(null);
                         classLoader.close();
